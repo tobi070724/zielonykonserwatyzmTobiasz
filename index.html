@@ -32,7 +32,12 @@
     .section.muted { background: linear-gradient(180deg, rgba(51, 61, 41, .02), rgba(51, 61, 41, 0) 30%) }
     a { color: inherit }
     .btn { display: inline-block; text-decoration: none; cursor: pointer; user-select: none; border-radius: 12px; padding: 10px 14px; font-weight: 700; border: 1px solid transparent }
-    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff }
+    /* ===== ZMIANA TUTAJ ===== */
+.btn-primary {
+  background: linear-gradient(135deg, #5a946e, #3a6346); /* Lepszy, bardziej żywy gradient */
+  color: #fff !important; /* !important zapewni, że tekst ZAWSZE będzie biały */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+}
     .btn-ghost { background: transparent; border: 1px solid rgba(51, 61, 41, .14); color: var(--text) }
     .btn-secondary { background: var(--bg-soft); border: 1px solid rgba(51, 61, 41, .14); color: var(--text) }
     .btn:hover { transform: translateY(-1px); transition: .15s ease }
@@ -456,4 +461,5 @@
   </script>
 </body>
 </html>
+
 
