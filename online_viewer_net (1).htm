@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tobiasz Bykowski — Aplikacja do Fundacji Polska z Natury</title>
+  <meta name="description" content="Strona-aplikacja przygotowana dla Fundacji Polska z Natury przez Tobiasza Bykowskiego na stanowisko Kierownika Kampanii.">
+  <style>
+    :root {
+      --bg: #f8f6f2;
+      --bg-soft: #f0edea;
+      --card: #ffffff;
+      --text: #333d29;
+      --muted: #656d4a;
+      --primary: #4a7c59;
+      --primary-2: #3a6346;
+      --accent: #c6a362;
+      --radius: 14px;
+      --shadow: 0 8px 25px rgba(0, 0, 0, .08);
+    }
+
+    * { box-sizing: border-box }
+    html, body { margin: 0; padding: 0 }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(74, 124, 89, .08), transparent 60%), var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { width: min(1120px, 92%); margin: 0 auto }
+    .section { padding: 72px 0 }
+    .section.muted { background: linear-gradient(180deg, rgba(51, 61, 41, .02), rgba(51, 61, 41, 0) 30%) }
+    a { color: inherit }
+    .btn { display: inline-block; text-decoration: none; cursor: pointer; user-select: none; border-radius: 12px; padding: 10px 14px; font-weight: 700; border: 1px solid transparent }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #fff }
+    .btn-ghost { background: transparent; border: 1px solid rgba(51, 61, 41, .14); color: var(--text) }
+    .btn-secondary { background: var(--bg-soft); border: 1px solid rgba(51, 61, 41, .14); color: var(--text) }
+    .btn:hover { transform: translateY(-1px); transition: .15s ease }
+
+    /* Header */
+    .site-header { position: sticky; top: 0; z-index: 50; background: rgba(248, 246, 242, .7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(51, 61, 41, .08) }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0 }
+    .brand { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; font-weight: 800; letter-spacing: .5px; text-decoration: none }
+    .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 22px }
+    .nav-list { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0 }
+    .nav-list a { color: var(--text); text-decoration: none; padding: 8px 10px; border-radius: 8px }
+    .nav-list a:hover { background: rgba(51, 61, 41, .06) }
+
+    /* Hero */
+    .hero { position: relative; padding: 72px 0 36px }
+    .hero-content { display: grid; grid-template-columns: 1.15fr .85fr; gap: 36px; align-items: stretch }
+    .hero-text h1 { font-size: 42px; line-height: 1.15; margin: .2em 0 .2em }
+    .lead { color: var(--muted); font-size: 18px }
+    .sublead { color: var(--muted); font-size: 14px; margin-top: 8px }
+    .meta { margin-top: 10px; color: var(--muted); font-size: 14px }
+    .cta { display: flex; gap: 12px; margin-top: 18px }
+    .hero-card { background: var(--card); border: 1px solid rgba(51, 61, 41, .1); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow) }
+    .badge { display: inline-block; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; font-weight: 700; border-radius: 999px; padding: 6px 12px; font-size: 12px; letter-spacing: .3px }
+    .highlights { margin: 12px 0 0; padding-left: 18px }
+    .highlights li { margin: 6px 0 }
+    .hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(600px 300px at 20% 0%, rgba(74, 124, 89, .1), transparent 60%) }
+
+    /* Sections */
+    h2 { font-size: 28px; margin: 0 0 18px }
+    h3 { margin: 0 0 10px }
+    .grid { display: grid; gap: 18px }
+    .cards { grid-template-columns: repeat(3, 1fr) }
+    .cards .card { background: var(--card); border: 1px solid rgba(51, 61, 41, .08); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .cases { grid-template-columns: repeat(2, 1fr) }
+    .case { background: linear-gradient(180deg, rgba(51, 61, 41, .03), rgba(51, 61, 41, .015)); border: 1px solid rgba(51, 61, 41, .06); border-radius: var(--radius); padding: 18px }
+    .case ul { margin: 10px 0 0 18px }
+    .plan { grid-template-columns: repeat(3, 1fr) }
+    .step { background: var(--card); border: 1px solid rgba(51, 61, 41, .06); border-radius: var(--radius); padding: 18px }
+    .center { display: flex; justify-content: center; margin-top: 18px }
+    
+    /* Materiały (CV + list) */
+    .downloads { grid-template-columns: 1.35fr .65fr; align-items: start; gap: 16px }
+    .table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid rgba(51, 61, 41, .08); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .table tr+tr td { border-top: 1px solid rgba(51, 61, 41, .08) }
+    .table td { padding: 10px 12px }
+    .table .label { color: var(--muted); width: 42% }
+    .download-info .cta { margin-top: 14px }
+    .docs { display: grid; gap: 14px; max-width: 520px; margin-left: auto }
+    .doc-card { background: var(--card); border: 1px solid rgba(51, 61, 41, .08); border-radius: 12px; padding: 14px; box-shadow: var(--shadow); }
+    .doc-card h3 { margin: 0 0 6px }
+    .doc-meta { color: var(--muted); font-size: 12px }
+    .doc-actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap }
+
+    @media (max-width: 980px) { .downloads { grid-template-columns: 1fr } }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid rgba(51, 61, 41, .08); padding: 20px 0; margin-top: 24px }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center }
+    .footer-links { display: flex; gap: 14px }
+    .footer-links a { color: var(--muted); text-decoration: none }
+    .footer-links a:hover { color: var(--text) }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-content { grid-template-columns: 1fr }
+      .cards { grid-template-columns: repeat(2, 1fr) }
+      .cases { grid-template-columns: 1fr }
+      .plan { grid-template-columns: 1fr }
+      .contact { grid-template-columns: 1fr }
+    }
+    @media (max-width: 720px) {
+      .nav-list { display: none; position: absolute; right: 4%; top: 64px; width: 92%; background: var(--bg-soft); border: 1px solid rgba(51, 61, 41, .1); border-radius: 12px; padding: 10px }
+      .nav-list.open { display: grid }
+      .nav-toggle { display: inline-block }
+      .cards { grid-template-columns: 1fr }
+    }
+
+    .alt-roles {
+      position: relative;
+      padding: 84px 0;
+      background:
+        radial-gradient(900px 420px at 15% -10%, rgba(74, 124, 89, .1), transparent 60%),
+        radial-gradient(900px 420px at 85% 110%, rgba(198, 163, 98, .12), transparent 60%),
+        var(--bg);
+      border-top: 1px solid rgba(51, 61, 41, .08);
+      border-bottom: 1px solid rgba(51, 61, 41, .08);
+    }
+    .kicker {
+      display: inline-block;
+      padding: 6px 10px;
+      border: 1px solid rgba(51, 61, 41, .14);
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(51, 61, 41, .03);
+    }
+    .mega-headline {
+      font-size: clamp(30px, 5.2vw, 56px);
+      line-height: 1.05;
+      margin: .35em 0 .2em;
+      letter-spacing: .2px;
+    }
+    .mega-headline .accent {
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    .roles-intro { color: var(--muted); max-width: 840px }
+    .roles {
+      list-style: none; padding: 0; margin: 26px 0 0;
+      border-top: 1px solid rgba(51, 61, 41, .1);
+    }
+    .roles li {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(51, 61, 41, .1);
+      transition: background .2s ease, transform .2s ease;
+    }
+    .roles li:hover {
+      background: linear-gradient(90deg, rgba(74, 124, 89, .08), rgba(198, 163, 98, .06) 60%, transparent);
+      transform: translateY(-1px);
+    }
+    .roles .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      margin-top: 7px; box-shadow: 0 0 16px rgba(74, 124, 89, .45);
+    }
+    .roles .title { font-weight: 800 }
+    .roles .desc { color: var(--muted); margin-top: 2px }
+    .alt-roles .cta { margin-top: 22px; gap: 12px }
+    .alt-roles .aside { color: var(--muted); font-size: 13px; margin-top: 10px }
+
+    .contact-hero {
+      position: relative;
+      padding: 96px 0 84px;
+      background:
+        radial-gradient(900px 420px at 12% -10%, rgba(74, 124, 89, .1), transparent 60%),
+        radial-gradient(900px 420px at 88% 110%, rgba(198, 163, 98, .12), transparent 60%),
+        linear-gradient(180deg, rgba(51, 61, 41, .03), rgba(51, 61, 41, 0) 30%),
+        var(--bg);
+      border-top: 1px solid rgba(51, 61, 41, .08);
+      border-bottom: 1px solid rgba(51, 61, 41, .08);
+      overflow: hidden;
+    }
+    .contact-hero::after {
+      content: "";
+      position: absolute; inset: -20% -10% auto auto;
+      width: 520px; height: 520px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74, 124, 89, .12), rgba(198, 163, 98, .08) 60%, transparent 70%);
+      filter: blur(40px); opacity: .5; pointer-events: none;
+    }
+    .contact-kicker {
+      display: inline-block; padding: 6px 10px; border: 1px solid rgba(51, 61, 41, .14);
+      border-radius: 999px; font-size: 12px; color: var(--muted); background: rgba(51, 61, 41, .03)
+    }
+    .contact-headline {
+      font-size: clamp(30px, 5.5vw, 58px);
+      line-height: 1.05; margin: .35em 0 .2em; letter-spacing: .2px
+    }
+    .contact-headline .accent {
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; color: transparent
+    }
+    .contact-intro { color: var(--muted); max-width: 820px }
+    .contact-chips {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px
+    }
+    .contact-chips a, .contact-chips button {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--card); border: 1px solid rgba(51, 61, 41, .12);
+      color: var(--text); text-decoration: none; padding: 10px 12px; border-radius: 999px;
+      font-weight: 600; cursor: pointer
+    }
+    .contact-chips a:hover, .contact-chips button:hover {
+      transform: translateY(-1px);
+      transition: .15s ease;
+      background: var(--bg-soft);
+    }
+    .contact-cta { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap }
+    .btn-large { padding: 14px 18px; font-size: 16px; border-radius: 14px }
+    .contact-meta { color: var(--muted); font-size: 13px; margin-top: 10px }
+    @media (max-width: 720px) { .contact-headline { font-size: clamp(26px, 7vw, 38px) } }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Strona główna">TB</a>
+      <nav>
+        <button class="nav-toggle" aria-label="Otwórz menu" aria-expanded="false">☰</button>
+        <ul class="nav-list">
+          <li><a href="#o-mnie">Moje kompetencje</a></li>
+          <li><a href="#materialy">Dokumenty</a></li>
+          <li><a href="#elastycznosc">Elastyczność</a></li>
+          <li><a href="#kontakt" class="btn btn-primary">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1>Tobiasz Bykowski — Kandydat na stanowisko Kierownika Kampanii</h1>
+          <p class="lead">
+            Jako Prezes Fundacji "Rozkwit", Marketing Manager i specjalista od budowania strategii, od lat zajmuję się tworzeniem od zera projektów i kampanii, które angażują lokalne społeczności i przynoszą wymierne rezultaty. Rozumiem wyzwania małych ojczyzn i wierzę, że moje doświadczenie w łączeniu profesjonalnego marketingu z misją społeczną idealnie wpisuje się w wartości Fundacji Polska z Natury.
+          </p>
+          <p class="sublead">
+            Ta strona to interaktywne uzupełnienie mojego CV, przygotowane specjalnie z myślą o Państwa organizacji.
+          </p>
+          <div class="cta">
+            <a href="#kontakt" class="btn btn-primary">Porozmawiajmy o współpracy</a>
+          </div>
+          <div class="meta">
+            <span>tobiasz.bykowski@gmail.com</span> • <span>+48 882 312 380</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="badge">Wybrane osiągnięcia</div>
+          <ul class="highlights">
+            <li><strong>Zarządzanie i strategia:</strong> Kierowanie ponad 20-osobowym zespołem Fundacji i tworzenie od podstaw strategii jej rozwoju.</li>
+            <li><strong>Tworzenie kampanii społecznych:</strong> Organizacja największych w regionie programów stypendialnych ("Zdolni!") i wydarzeń rodzinnych ("Wesołe Blokowiska" dla 1000+ osób).</li>
+            <li><strong>Budowanie relacji:</strong> Skuteczne pozyskiwanie funduszy, nawiązywanie partnerstw i budowanie trwałych relacji z interesariuszami.</li>
+            <li><strong>Mierzalne wyniki:</strong> Wygenerowanie 372 kwalifikowanych leadów w 3 miesiące oraz wzrost widoczności strony o 30% w poprzednich rolach.</li>
+            <li><strong>Komunikacja:</strong> Rozwój kanału B2B na YouTube do 1000 subskrypcji, pozycjonując kluczowe treści na 1. miejscu w Google.</li>
+            <li><strong>Uznanie w środowisku:</strong> Wyróżnienie "Złotym Indeksem" NBP jako 1 z 25 studentów w Polsce za działalność społeczną i naukową.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hero-bg"></div>
+    </section>
+
+    <section id="o-mnie" class="section">
+      <div class="container">
+        <h2>Dlaczego pasujemy do siebie? Moje kompetencje a Państwa potrzeby</h2>
+        <div class="grid cards">
+          <article class="card">
+            <h3>Kierowanie kampaniami społecznymi</h3>
+            <p>Od 4 lat tworzę i realizuję projekty społeczne od A do Z – od idei, przez strategię i budżet, po wdrożenie i raportowanie. Doświadczenie w Fundacji "Rozkwit" nauczyło mnie, jak skutecznie angażować i aktywizować społeczności wokół wspólnego celu.</p>
+          </article>
+          <article class="card">
+            <h3>Budowanie sieci partnerstw</h3>
+            <p>Sukces moich projektów opiera się na trwałych relacjach. Mam doświadczenie w docieraniu do partnerów lokalnych, instytucji i organizacji, a następnie w pielęgnowaniu tej współpracy, by przynosiła obopólne korzyści i realizowała cele statutowe.</p>
+          </article>
+          <article class="card">
+            <h3>Analiza i mierzenie efektów (KPI)</h3>
+            <p>Każde działanie musi mieć cel i mierzalny wskaźnik. Potrafię wdrażać systemy analityczne (CRM, Google Analytics, Looker Studio), definiować kluczowe wskaźniki efektywności (KPI) i na ich podstawie optymalizować przebieg kampanii, aby maksymalizować jej wpływ.</p>
+          </article>
+          <article class="card">
+            <h3>Zrozumienie małych miast i wsi</h3>
+            <p>Moja działalność społeczna od początku skupia się na wspieraniu rozwoju regionalnego i odpowiadaniu na potrzeby mieszkańców mniejszych miejscowości. Wiem, jak ważna jest lokalna tożsamość i jak budować komunikację opartą na szacunku do tradycji i więzi.</p>
+          </article>
+           <article class="card">
+            <h3>Innowacje w komunikacji</h3>
+            <p>Łączę sprawdzone metody z nowoczesnymi narzędziami. Tworzyłem od zera strategie contentowe i SEO, które plasowały treści na szczycie wyników wyszukiwania, a także testowałem i wdrażałem nowe narracje, by skutecznie docierać do zdefiniowanych grup odbiorców.</p>
+          </article>
+          <article class="card">
+            <h3>Doświadczenie w grantach</h3>
+            <p>Jako prezes fundacji regularnie pozyskuję środki na działalność statutową. Procesy aplikacyjne, tworzenie budżetów i rozliczanie dotacji są stałym elementem mojej pracy. Rozumiem logikę działania grantodawców i potrafię przygotować przekonujące wnioski.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="materialy" class="section">
+      <div class="container">
+        <h2>Materiały do pobrania</h2>
+        <div class="grid downloads">
+          <div class="download-info">
+            <table class="table">
+              <tr>
+                <td class="label">Pełne doświadczenie</td>
+                <td>W CV znajdą Państwo szczegółowy opis moich obowiązków, twarde dane z prowadzonych kampanii oraz listę zrealizowanych projektów.</td>
+              </tr>
+              <tr>
+                <td class="label">Kontekst i motywacja</td>
+                <td>List motywacyjny to rozwinięcie mojej wizji współpracy i pokazanie, dlaczego misja Fundacji Polska z Natury jest mi tak bliska.</td>
+              </tr>
+              <tr>
+                <td class="label">Idealne dopasowanie</td>
+                <td>Oba dokumenty zostały przygotowane specjalnie na potrzeby tej rekrutacji, by pokazać pełną zbieżność moich kompetencji z Państwa oczekiwaniami.</td>
+              </tr>
+            </table>
+
+            <div class="cta">
+              <a href="#kontakt" class="btn btn-primary">Przejdźmy do rozmowy</a>
+            </div>
+          </div>
+
+          <div class="docs">
+            <article class="doc-card">
+              <h3>CV — Tobiasz Bykowski</h3>
+              <div class="doc-actions">
+                <a class="btn btn-primary" href="/CV-Tobiasz-Bykowski-Polska-z-Natury.pdf" download>Pobierz CV (PDF)</a>
+                <a class="btn btn-ghost" href="/CV-Tobiasz-Bykowski-Polska-z-Natury.pdf" target="_blank" rel="noopener">Podgląd</a>
+              </div>
+            </article>
+
+            <article class="doc-card">
+              <h3>List motywacyjny</h3>
+              <div class="doc-actions">
+                <a class="btn btn-primary" href="/List-Motywacyjny-Polska-z-Natury.pdf" download>Pobierz list (PDF)</a>
+                <a class="btn btn-ghost" href="/List-Motywacyjny-Polska-z-Natury.pdf" target="_blank" rel="noopener">Podgląd</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="elastycznosc" class="section alt-roles">
+      <div class="container">
+        <span class="kicker">Elastyczne dopasowanie</span>
+        <h2 class="mega-headline"> Nie są Państwo przekonani? Chętnie udowodnię swoją wartość <span class="accent">tam, gdzie jest ona teraz najbardziej potrzebna</span>.</h2>
+        <p class="roles-intro">Jeśli rola Kierownika Kampanii musi poczekać, mogę wesprzeć Fundację w innych obszarach. Szybko się wdrażam, biorę pełną odpowiedzialność za powierzone zadania i skupiam się na generowaniu realnych wyników.</p>
+        <ul class="roles">
+          <li>
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <div class="title">Wsparcie operacyjne i administracyjne</div>
+              <div class="desc">Od koordynacji dokumentów po harmonogramy – dbam o to, by wszystko było na czas i w idealnym porządku. Wdrażam proste automatyzacje, które uwalniają czas zespołu.</div>
+            </div>
+          </li>
+          <li>
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <div class="title">Budowanie relacji z partnerami</div>
+              <div class="desc">Mogę skupić się na utrzymaniu i rozwoju kontaktów z obecnymi partnerami lub aktywnie poszukiwać nowych, przygotowując grunt pod przyszłe, większe kampanie.</div>
+            </div>
+          </li>
+           <li>
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <div class="title">Zadania specjalne</div>
+              <div class="desc">Jestem gotów podjąć się nietypowych wyzwań i projektów, które wymagają nieszablonowego podejścia i dużej samodzielności. Lubię rozwiązywać problemy i dowozić rezultaty.</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="cta">
+          <a href="#kontakt" class="btn btn-primary">Porozmawiajmy o najlepszym dopasowaniu</a>
+          <a href="#materialy" class="btn btn-ghost">Zobacz moje dokumenty</a>
+        </div>
+        <p class="aside">Jestem przekonany, że wspólnie znajdziemy obszar, w którym mogę Państwa najskuteczniej wesprzeć.</p>
+      </div>
+    </section>
+
+    <section id="kontakt" class="section contact-hero">
+      <div class="container">
+        <span class="contact-kicker">Kontakt</span>
+        <h2 class="contact-headline">Mają Państwo 15 minut na rozmowę? Chętnie przedstawię konkretne pomysły na kampanie. <span class="accent">Zacznijmy dialog.</span></h2>
+        <p class="contact-intro">
+          Najszybciej złapią mnie Państwo mailowo lub telefonicznie. Zapraszam do bezpośredniego kontaktu.
+        </p>
+
+        <div class="contact-chips" role="list">
+          <a role="listitem" href="mailto:tobiasz.bykowski@gmail.com?subject=Aplikacja%20na%20stanowisko%20Kierownika%20Kampanii%20-%20Tobiasz%20Bykowski" aria-label="Wyślij mail do tobiasz.bykowski@gmail.com">
+            ✉️ tobiasz.bykowski@gmail.com
+          </a>
+          <a role="listitem" href="tel:+48882312380" aria-label="Zadzwoń pod numer 48 882 312 380">
+            📞 +48 882 312 380
+          </a>
+        </div>
+
+        <div class="contact-cta">
+          <a class="btn btn-primary btn-large" href="mailto:tobiasz.bykowski@gmail.com?subject=Aplikacja%20na%20stanowisko%20Kierownika%20Kampanii%20-%20Tobiasz%20Bykowski&body=Dzie%C5%84%20dobry%2C%20nawi%C4%85zuj%C4%85c%20do%20Pana%20aplikacji%2C%20chcieliby%C5%9Bmy%20zaprosi%C4%87%20na%20rozmow%C4%99.%20Proponowane%20terminy%3A%20..." aria-label="Wyślij e-mail">
+            Wyślij e-mail
+          </a>
+          <a class="btn btn-ghost btn-large" href="tel:+48882312380" aria-label="Zadzwoń teraz">
+            Zadzwoń teraz
+          </a>
+        </div>
+        <p class="contact-meta">
+          PS. Z niecierpliwością czekam na możliwość rozmowy i przedstawienia, jak mogę przyczynić się do sukcesu Państwa misji.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Tobiasz Bykowski • Stworzone specjalnie dla Fundacji Polska z Natury</p>
+      <div class="footer-links">
+        <a href="mailto:tobiasz.bykowski@gmail.com">E-mail</a>
+        <a href="tel:+48882312380">Telefon</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Rok w stopce
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navList = document.querySelector('.nav-list');
+    if (navToggle && navList) {
+      navToggle.addEventListener('click', () => {
+        const open = navList.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navList.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }));
+    }
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const id = this.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
